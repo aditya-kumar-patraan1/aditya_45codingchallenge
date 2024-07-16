@@ -1,0 +1,33 @@
+Subarray Sums Divisible by K
+
+Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
+
+A subarray is a contiguous part of an array.
+
+
+
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        int last_cntr = 0;
+
+        int n = nums.size();
+        vector<int> res;
+
+        for(int i=0;i<n;i++){
+            if(n==abs(nums[i])){
+                last_cntr++;
+                continue;
+            }
+            if(nums[abs(nums[i])]<0){
+                res.push_back(abs(nums[i]));
+            }
+            nums[abs(nums[i])]*=-1;
+        }
+
+        if(last_cntr>1){
+            res.push_back(n);
+        }
+        return res;
+    }
+};
