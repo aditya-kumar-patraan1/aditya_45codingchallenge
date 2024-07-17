@@ -1,0 +1,42 @@
+SPIRAL MATRIX PRINTING
+Given an m x n matrix, return all elements of the matrix in spiral order.
+
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int total_visited = 0;
+        vector<int> result;
+        int a = 0,b=n-1,c=m-1,d=0;
+
+        while(total_visited < (m*n)){
+            //moving rightward direction
+            for(int i=d;i<=b && total_visited<(m*n);i++){
+                result.push_back(matrix[a][i]);
+                total_visited++;
+            }
+            a++;
+            //moving downward direction
+            for(int i=a;i<=c && total_visited<(m*n);i++){
+                result.push_back(matrix[i][b]);
+                total_visited++;
+            }
+            b--;
+            //moving leftward direction
+            for(int i=b;i>=d && total_visited<(m*n);i--){
+                result.push_back(matrix[c][i]);
+                total_visited++;
+            }
+            c--;
+            //moving upward direction
+            for(int i=c;i>=a && total_visited<(m*n);i--){
+                result.push_back(matrix[i][d]);
+                total_visited++;
+            }
+            d++;
+        }
+        return result;
+    }
+};
