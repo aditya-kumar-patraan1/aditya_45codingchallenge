@@ -1,0 +1,71 @@
+
+493. Reverse Pairs
+
+Given an integer array nums, return the number of reverse pairs in the array.
+
+A reverse pair is a pair (i, j) where:
+
+0 <= i < j < nums.length and
+nums[i] > 2 * nums[j].
+
+
+
+class Solution {
+public:
+    int ans = 0;
+
+    void sorting(int start, int mid, int end, vector<int>& v) {
+        vector<int> A(mid - start + 1);
+        vector<int> B(end - mid);
+
+        int K = 0;
+        for (int i = start; i <= mid; i++) {
+            A[K++] = v[i];
+        }
+
+        K = 0;
+
+        for (int i = mid + 1; i <= end; i++) {
+            B[K++] = v[i];
+        }
+
+        
+
+        int I = 0, J = 0;
+
+        int m = mid - start + 1, n = end - mid;
+        K = start;
+        while (I < m && J < n) {
+            if (A[I] < B[J]) {
+                v[K++] = A[I++];
+            } else {
+                v[K++] = B[J++];
+            }
+        }
+
+        while (I < m) {
+            v[K++] = A[I++];
+        }
+
+        while (J < n) {
+            v[K++] = B[J++];
+        }
+    }
+
+    void mergeSort(int start, int end, vector<int>& v) {
+        if (start >= end) {
+            return;
+        }
+        int mid = start + (end - start) / 2;
+        mergeSort(start, mid, v);
+        mergeSort(mid + 1, end, v);
+        sorting(start, mid, end, v);
+    }
+
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        mergeSort(0,n-1,nums);
+
+        return ans;
+    }
+};
