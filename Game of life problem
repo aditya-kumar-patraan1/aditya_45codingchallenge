@@ -1,0 +1,78 @@
+289. Game of Life
+
+According to Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
+
+The board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
+
+Any live cell with fewer than two live neighbors dies as if caused by under-population.
+Any live cell with two or three live neighbors lives on to the next generation.
+Any live cell with more than three live neighbors dies, as if by over-population.
+Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+The next state is created by applying the above rules simultaneously to every cell in the current state, where births and deaths occur simultaneously. Given the current state of the m x n grid board, return the next state.
+
+
+
+
+
+
+class Solution {
+public:
+    int n;
+
+    vector<int> RSE(vector<int> A){
+        vector<int> result(n);
+        stack<int> stk;
+
+        for(int i=n-1;i>=0;i--){
+            while(!stk.empty() && A[i] <= A[stk.top()]){
+                stk.pop();
+            }
+            if(!stk.empty()){
+                result[i] = stk.top();
+            }
+            else{
+                result[i] = n;
+            }
+            stk.push(i);
+        }
+
+        return result;
+    }
+
+    vector<int> LSE(vector<int> A){
+        vector<int> result(n);
+        stack<int> stk;
+
+        for(int i=0;i<n;i++){
+            while(!stk.empty() && A[i] <= A[stk.top()]){
+                stk.pop();
+            }
+            if(!stk.empty()){
+                result[i] = stk.top();
+            }
+            else{
+                result[i] = -1;
+            }
+            stk.push(i);
+        }
+
+        return result;
+    }
+
+    int largestRectangleArea(vector<int>& A) {
+        this->n = A.size();
+        int maxi = 0;
+        vector<int> lse = LSE(A);
+        vector<int> rse = RSE(A);
+
+        for(int i=0;i<n;i++){
+            int l = A[i];
+            int b = rse[i] - lse[i] - 1;
+            maxi = max(maxi,l*b);
+        }
+
+        return maxi;
+
+        
+    }
+};
